@@ -27,7 +27,7 @@ export class CoursesHttpService {
     }
 
     findLessons(
-        courseId:number,
+        courseId: number,
         pageNumber = 0, pageSize = 3):  Observable<Lesson[]> {
 
         return this.http.get<Lesson[]>('/api/lessons', {
