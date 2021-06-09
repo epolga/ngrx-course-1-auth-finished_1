@@ -2,8 +2,8 @@
 
 
 import {Request, Response} from 'express';
-import {LESSONS} from "./db-data";
-import {setTimeout} from "timers";
+import {LESSONS} from './db-data';
+import {setTimeout} from 'timers';
 
 
 
@@ -12,20 +12,21 @@ export function searchLessons(req: Request, res: Response) {
     console.log('Searching for lessons ...');
 
         const queryParams = req.query;
-
-        const courseId = queryParams.courseId,
+  const radix1 = 10;
+  const radix2 = 10;
+  const courseId = queryParams.courseId,
             filter = queryParams.filter || '',
             sortOrder = queryParams.sortOrder || 'asc',
-            pageNumber = parseInt(queryParams.pageNumber) || 0,
-            pageSize = parseInt(queryParams.pageSize);
+            pageNumber = parseInt(queryParams.pageNumber as string, radix1) || 0,
+            pageSize = parseInt(queryParams.pageSize as string, radix2);
 
-        let lessons = Object.values(LESSONS).filter(lesson => lesson.courseId == courseId).sort((l1, l2) => l1.id - l2.id);
+        let lessons = Object.values(LESSONS).filter(lesson => lesson.courseId.toString(10) === courseId).sort((l1, l2) => l1.id - l2.id);
 
         if (filter) {
-            lessons = lessons.filter(lesson => lesson.description.trim().toLowerCase().search(filter.toLowerCase()) >= 0);
+            lessons = lessons.filter(lesson => lesson.description.trim().toLowerCase().search(filter.toString().toLowerCase()) >= 0);
         }
 
-        if (sortOrder == "desc") {
+        if (sortOrder === 'desc') {
             lessons = lessons.reverse();
         }
 
